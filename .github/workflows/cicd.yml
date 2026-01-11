@@ -23,11 +23,15 @@ jobs:
       - name: Build with Maven
         run: mvn package --file pom.xml
 
+      - name: Download Trivy HTML template
+        run: |
+          curl -sSL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/html.tpl -o html.tpl
+
       - name: Trivy FS Scan
         run: |
           trivy fs . \
             --format template \
-            --template "@contrib/html.tpl" \
+            --template "@html.tpl" \
             -o trivy-fs-report.html
 
       - name: Upload Trivy Report
@@ -52,3 +56,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
