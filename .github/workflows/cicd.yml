@@ -26,7 +26,8 @@ jobs:
       - name: Trivy FS Scan
         run: |
           trivy fs . \
-            --format html \
+            --format template \
+            --template "@contrib/html.tpl" \
             -o trivy-fs-report.html
 
       - name: Upload Trivy Report
@@ -51,6 +52,3 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
-
-
